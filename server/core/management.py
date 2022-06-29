@@ -3,7 +3,7 @@
 # 2. parse cmd
 # 3. do as the commands after commands
 import os.path
-
+from core import server_op
 
 
 
@@ -19,13 +19,13 @@ class management_tool(object):
             help()
             exit()
         cmd = self.argv[1]
-        if not hasattr(cmd):
+        if not hasattr(self, cmd):
             print('--------valid cmd--------')
             exit()
 
     def execute(self):
         cmd = self.argv[1]
-        func = getattr(cmd)
+        func = getattr(self, cmd)
         func()
 
     def help(self):
@@ -37,18 +37,23 @@ class management_tool(object):
                     createuser ---to create new user 
                     help ---to get help menu
         ''')
-    
-    def startserver(self):
-        print('--------starting server--------')
 
-    def restartserver(self):
+    def start(self):
+        print('--------starting server--------')
+        self.server = server_op.Server(self)
+
+
+    def restart(self):
         print('--------restarting server--------')
+        self.server.shutdown()
+        self.server.getConn()
 
     def createuser(self):
         print('--------creating user--------')
 
     def stop(self):
         print('--------stopping server--------')
+        exit()
 
 
 
